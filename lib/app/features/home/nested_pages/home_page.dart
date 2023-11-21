@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/queue_card_widget.dart';
 
 class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,6 +76,24 @@ class HomePage extends HookWidget {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(60),
                   topRight: Radius.circular(60),
+                ),
+              ),
+              child: AnimationLimiter(
+                child: ListView.separated(
+                  itemCount: 10,
+                  separatorBuilder: (context, index) => const Gap(32),
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(microseconds: 375),
+                      child: const SlideAnimation(
+                        verticalOffset: 50,
+                        child: FadeInAnimation(
+                          child: QueueCardWidget(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
